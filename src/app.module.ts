@@ -8,6 +8,7 @@ import { User } from './user/entities/user.entity';
 import { PostModule } from './post/post.module';
 import { Post } from './post/entities/post.entity';
 import { ImageController } from './image/image.controller';
+import { AppController } from './app/app.controller';
 
 @Module({
   imports: [
@@ -32,6 +33,6 @@ import { ImageController } from './image/image.controller';
     }),
     PostModule,
   ],
-  controllers: [ImageController],
+  controllers: [ImageController, AppController],
 })
 export class AppModule {}

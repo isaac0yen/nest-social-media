@@ -54,4 +54,13 @@ export class UserResolver {
       throw new NotFoundException(error.message);
     }
   }
+
+  @Mutation(() => Boolean)
+  async populateDb() {
+    try {
+      return await this.userService.populateDb();
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
 }

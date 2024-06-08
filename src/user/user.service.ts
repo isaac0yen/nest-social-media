@@ -43,4 +43,39 @@ export class UserService {
     }
     return this.userRepository.remove(user);
   }
+
+  async populateDb() {
+    //Function to populate the User table with 6 dummy data
+    const userData = [
+      {
+        username: 'john_doe',
+        followers: 500,
+        followings: 200,
+      },
+      {
+        username: 'jane_smith',
+        followers: 300,
+        followings: 150,
+      },
+      {
+        username: 'sam_jackson',
+        followers: 800,
+        followings: 400,
+      },
+      {
+        username: 'sara_carter',
+        followers: 600,
+        followings: 300,
+      },
+    ];
+    //Check if the user table has more than 0 records
+    const users = await this.findAll();
+    if (users.length > 0) {
+      return false;
+    }
+    for (const user of userData) {
+      await this.create(user);
+    }
+    return true;
+  }
 }

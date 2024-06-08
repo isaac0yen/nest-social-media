@@ -28,6 +28,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  populateDb: Boolean!
   createPost(createPostInput: CreatePostInput!): Post!
   removePost(id: Int!): Post!
   likePost(id: Int!): Post!

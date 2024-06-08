@@ -7,18 +7,29 @@ import { createReadStream, existsSync } from 'fs';
 export class ImageController {
   @Get(':key')
   async getImage(@Param('key') key: string, @Res() res: Response) {
-    const imagePath = join(__dirname, '..', '..', 'images', key + '.png');
-    // Check if the file exists before trying to read it
-    if (!existsSync(imagePath)) {
-      throw new NotFoundException(`Image with key ${key} not found`);
-    }
+    const getImagePath = (key) => {
+      const imagePath = join(__dirname, '..', '..', 'images', key);
+      const extensions = ['.png', '.jpg', '.jpeg'];
 
+      for (const ext of extensions) {
+        const filePath = `${imagePath}${ext}`;
+        if (existsSync(filePath)) {
+          return filePath;
+        }
+      }
+
+      throw new Error(`Image with key ${key} not found`);
+    };
+
+    let imagePath;
     try {
-      createReadStream(imagePath).pipe(res);
+      imagePath = getImagePath(key);
     } catch (error) {
       throw new NotFoundException(
         `Error reading image with key ${key}: ${error.message}`,
       );
     }
+
+    createReadStream(imagePath).pipe(res);
   }
 }
