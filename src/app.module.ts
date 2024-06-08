@@ -5,6 +5,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/entities/user.entity';
+import { PostModule } from './post/post.module';
+import { Post } from './post/entities/post.entity';
+import { ImageController } from './image/image.controller';
 
 @Module({
   imports: [
@@ -24,9 +27,11 @@ import { User } from './user/entities/user.entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
         synchronize: true,
-        entities: [User],
+        entities: [User, Post],
       }),
     }),
+    PostModule,
   ],
+  controllers: [ImageController],
 })
 export class AppModule {}

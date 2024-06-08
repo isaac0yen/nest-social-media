@@ -2,22 +2,35 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Post {
+  id: Int!
+  imageHashes: [String!]!
+  user: User!
+  likes: Int!
+}
+
 type User {
   id: Int!
   username: String!
   followers: Int!
   followings: Int!
+  posts: [Post!]
 }
 
 type Query {
   findAll: [User!]!
   findOne(id: Int!): User!
+  findAllPosts: [Post!]!
+  findPost(id: Int!): Post!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createPost(createPostInput: CreatePostInput!): Post!
+  removePost(id: Int!): Post!
+  likePost(id: Int!): Post!
 }
 
 input CreateUserInput {
@@ -31,4 +44,10 @@ input UpdateUserInput {
   followers: Int
   followings: Int
   id: Int!
+}
+
+input CreatePostInput {
+  imageBase64Strings: [String!]!
+  content: String!
+  userId: Int!
 }
