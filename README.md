@@ -6,7 +6,7 @@ This is a simple application that mimics basic Instagram functionalities using N
 
 - Create, Read, Update, and Delete (CRUD) operations for posts
 - Each post can have images and likes
-- **User interface available at the root directory (`/`) for interacting with the NestJS application**
+- **User interface available at the root path (`/`) for interacting with the NestJS application**
 
 ## Installation
 
