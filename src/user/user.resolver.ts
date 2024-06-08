@@ -3,33 +3,55 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.userService.create(createUserInput);
+  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    try {
+      return await this.userService.create(createUserInput);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  @Query(() => [User], { name: 'user' })
-  findAll() {
-    return this.userService.findAll();
+  @Query(() => [User])
+  async findAll() {
+    try {
+      const users = await this.userService.findAll();
+      return users;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
-  @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.findOne(id);
+  @Query(() => User)
+  async findOne(@Args('id', { type: () => Int }) id: number) {
+    try {
+      return await this.userService.findOne(id);
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.update(updateUserInput.id, updateUserInput);
+  async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    try {
+      return await this.userService.update(updateUserInput.id, updateUserInput);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.remove(id);
+  async removeUser(@Args('id', { type: () => Int }) id: number) {
+    try {
+      return await this.userService.remove(id);
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 }
